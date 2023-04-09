@@ -3,11 +3,37 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AuthProvider } from './providers/authProvider';
+import { QueryClient,QueryClientProvider } from 'react-query'
+import 'react-toastify/dist/ReactToastify.css';
+
+export const queryClient = new QueryClient()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+
+        <App>
+        </App>
+        {/* <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        >
+        <App />
+
+        </ToastContainer > */}
+      </AuthProvider>
+    </ QueryClientProvider>
   </React.StrictMode>
 );
 
