@@ -3,16 +3,16 @@ import { TableDetails } from "../main/private/waiter/table-details";
 import { TableStatus } from "../main/private/waiter/table-status";
 import { Inventory } from "../main/private/manager/inventory";
 import { MenuItemList } from "../main/private/kitchen/menu-item-list";
-import { Orders } from "../main/private/kitchen/orders";
+import { Orders } from "../main/private/kitchen/orders/orders";
 import { MenuItemDetails } from "../main/private/kitchen/menu-item-details";
-import { CustomerMenuItemList } from "../main/private/customer/MenuItemList";
-import { CustomerMenuOrder } from "../main/private/customer/MenuOrder";
-import { CustomerOrderList } from "../main/private/customer/OrderList";
+import { CustomerMenuItemList } from "../main/private/customer/CustomerItemList";
+import { CustomerMenuOrder } from "../main/private/customer/menuOrder/MenuOrder";
 import { CustomerBillDetail } from "../main/private/cashier/customer-bill-detail";
 import { CustomerBillList } from "../main/private/cashier/customer-bill-list";
 import { TableBookingDetail } from "../main/private/cashier/table-booking-detail";
 import { TableBookingStatus } from "../main/private/cashier/table-booking-status";
 import { Dashboard } from "../main/private/Dashboard/Dashboard";
+import { CustomerOrderStatus } from "../main/private/customer/orderStatus/OrderStatus";
 
 export const privateRoutes = createBrowserRouter([
   {
@@ -49,16 +49,16 @@ export const privateRoutes = createBrowserRouter([
         element: <><Outlet /></>,
         children: [
           {
-            path: '/customer/item-list',
-            element: <CustomerMenuItemList />
-          },
-          {
             path: '/customer/menu-order',
             element: <CustomerMenuOrder />
           },
           {
             path: '/customer/item-list',
-            element: <CustomerOrderList />
+            element: <CustomerMenuItemList />
+          },
+          {
+            path: '/customer/order-status',
+            element: <CustomerOrderStatus />
           },
         ]
       },
@@ -76,7 +76,7 @@ export const privateRoutes = createBrowserRouter([
           },
           {
             path: '/cashier/item-list',
-            element: <CustomerOrderList />
+            element: < >Todo</>
           },
           {
             path: '/cashier/table-booking-detail',

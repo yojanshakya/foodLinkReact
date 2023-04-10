@@ -1,5 +1,5 @@
 
-export function CustomerOrderList(){
+export function CustomerOrderStatus(){
 
 	return  <div class="content-wrapper">
 	<section class="content-header">
@@ -19,7 +19,7 @@ export function CustomerOrderList(){
 					<thead>
 						<tr>
 							<th >#</th>
-							<th style="width: 30%">Name</th>
+							<th style={{"width": "30%"}}>Name</th>
 							<th class="text-center">Quantity</th>
 							<th class="text-center">Status</th>
 							<th></th>
@@ -37,7 +37,7 @@ export function CustomerOrderList(){
 									</div>
 									<div class="mr-4">
 										<img alt="Avatar" 
-										style="width:3rem; height:3rem"
+										style={{"width":"3rem", "height":"3rem"}}
 										 class="img-circle img-fluid"
 										  src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533"/>
 									</div>
@@ -48,7 +48,7 @@ export function CustomerOrderList(){
 								In progress
 							</td>
 						</tr>
-						<tr style="border-top:1px solid #dee2e6">
+						<tr style={{"borderTop":"1px solid #dee2e6"}}>
 							<td>2</td>
 							<td>
 								<div class="d-flex">
@@ -58,7 +58,7 @@ export function CustomerOrderList(){
 										<small> Momo is a dumpling </small>
 									</div>
 									<div class="mr-4">
-										<img alt="Avatar" style="width:3rem; height:3rem" class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533"/>
+										<img alt="Avatar" style={{"width":"3rem", "height":"3rem"}} class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533"/>
 									</div>
 								</div>
 							</td>
@@ -67,7 +67,7 @@ export function CustomerOrderList(){
 								In progress
 							</td>
 						</tr>
-						<tr style="border-top:1px solid #dee2e6">
+						<tr style={{"borderTop":"1px solid #dee2e6"}}>
 							<td>3</td>
 							<td>
 								<div class="d-flex">
@@ -77,7 +77,7 @@ export function CustomerOrderList(){
 										<small> Momo is a dumpling </small>
 									</div>
 									<div class="mr-4">
-										<img alt="Avatar" style="width:3rem; height:3rem" class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533"/>
+										<img alt="Avatar" style={{"width":"3rem", "height":"3rem"}} class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533"/>
 									</div>
 								</div>
 							</td>

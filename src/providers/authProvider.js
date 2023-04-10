@@ -10,7 +10,7 @@ export function useAuthContext() {
 }
 
 export function AuthProvider({children}){
-	const [isAuth, setIsAuth] = React.useState(false);
+	const [isAuth, setIsAuth] = React.useState(true);
 
 	return <Provider value={{
 		setIsAuth,
