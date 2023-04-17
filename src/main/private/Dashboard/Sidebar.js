@@ -8,17 +8,18 @@ export function Sidebar() {
 			path: '/manager/inventory'
 		},
 		{
-			text: 'Kitchen Item List',
-			path: '/kitchen/item-list'
+			text: 'Manager Item List',
+			path: '/manager/item-list'
+		},
+		{
+			text: 'Manager Item Details',
+			path: '/manager/item-details'
 		},
 		{
 			text: 'Kitchen Orders',
 			path: '/kitchen/orders'
 		},
-		{
-			text: 'Kitchen Item Details',
-			path: '/kitchen/item-details'
-		},
+		
 		{
 			text: 'Customer Item List',
 			path: '/customer/item-list'

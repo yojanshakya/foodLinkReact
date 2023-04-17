@@ -1,5 +1,8 @@
+import { useGetOrderStatusByUser } from "./queries"
 
 export function CustomerOrderStatus(){
+
+	const {data:ordersList} = useGetOrderStatusByUser();
 
 	return  <div class="content-wrapper">
 	<section class="content-header">
@@ -26,66 +29,35 @@ export function CustomerOrderStatus(){
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>1</td>
-							<td>
-								<div class="d-flex">
-									<div class="mr-auto">
-										<a> Momo </a>
-										<br/>
-										<small> Momo is a dumpling </small>
+						{
+							ordersList?.map((item)=>{
+								return <tr>
+								<td>1</td>
+								<td>
+									<div class="d-flex">
+										<div class="mr-auto">
+											<span> {item.foodName} </span>
+											<br/>
+											<small> {item.description} </small>
+										</div>
+										<div class="mr-4">
+											<img alt="Avatar" 
+											style={{"width":"3rem", "height":"3rem"}}
+											 class="img-circle img-fluid"
+												src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533"/>
+										</div>
 									</div>
-									<div class="mr-4">
-										<img alt="Avatar" 
-										style={{"width":"3rem", "height":"3rem"}}
-										 class="img-circle img-fluid"
-										  src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533"/>
-									</div>
-								</div>
-							</td>
-							<td class="text-center" >3</td>
-							<td class="text-center">
-								In progress
-							</td>
-						</tr>
-						<tr style={{"borderTop":"1px solid #dee2e6"}}>
-							<td>2</td>
-							<td>
-								<div class="d-flex">
-									<div class="mr-auto">
-										<a> Momo </a>
-										<br/>
-										<small> Momo is a dumpling </small>
-									</div>
-									<div class="mr-4">
-										<img alt="Avatar" style={{"width":"3rem", "height":"3rem"}} class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533"/>
-									</div>
-								</div>
-							</td>
-							<td class="text-center" >3</td>
-							<td class="text-center">
-								In progress
-							</td>
-						</tr>
-						<tr style={{"borderTop":"1px solid #dee2e6"}}>
-							<td>3</td>
-							<td>
-								<div class="d-flex">
-									<div class="mr-auto">
-										<a> Momo </a>
-										<br/>
-										<small> Momo is a dumpling </small>
-									</div>
-									<div class="mr-4">
-										<img alt="Avatar" style={{"width":"3rem", "height":"3rem"}} class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533"/>
-									</div>
-								</div>
-							</td>
-							<td class="text-center">3</td>
-							<td class="text-center">
-								In progress
-							</td>
-						</tr>
+								</td>
+								<td class="text-center" >{item.orderFoodQuantity}</td>
+								<td class="text-center">
+									{/** todo use pills */}
+									{item.orderStatus ? "Completed": "In progress"}
+								</td>
+							</tr>
+							})
+						}
+						
+						
 					</tbody>
 				</table>
 			</div>

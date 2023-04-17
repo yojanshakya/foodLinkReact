@@ -1,4 +1,21 @@
+import React from "react"
+import { useLocation } from "react-router-dom"
+import { useGetSpecificItem } from "./queries";
+
 export function MenuItemDetails(){
+  const {state} = useLocation();
+
+  const {mutate: getSpecificItem, isLoading, isSuccess, data} = useGetSpecificItem()
+  const [] = React.useState({
+    foodCode: '',
+
+  });
+
+  React.useState(()=>{
+    if(state.id){
+      getSpecificItem(state.id)
+    }
+  }, [state.id])
 
 	return <>
       <div class="content-wrapper">

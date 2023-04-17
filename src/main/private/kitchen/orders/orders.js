@@ -1,72 +1,72 @@
-export function Orders(){
-	
-	return <>
-      <div class="content-wrapper">
-        <section class="content-header">
-          <div class="container-fluid">
-            <div class="row mb-2">
-              <div class="col-sm-6">
-                <h1>Orders</h1>
-              </div>
+import { Loading } from "../../../../components/Loading/Loading"
+import { useChangeOrderToCompleted, useGetOrdersByAllUsers } from "./orderQueries"
+
+export function Orders() {
+
+  const { data: allOrdersByUsers,isFetching: isOrdersLoading } = useGetOrdersByAllUsers()
+
+  const {data: changeOrderData, isFetching: changeOrderFetching, mutate: changeOrderToCompleted} = useChangeOrderToCompleted();
+
+  const onChangeToCompleted = (id)=>{
+    changeOrderToCompleted(id);
+  }
+  return <>
+    <div class="content-wrapper">
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Orders</h1>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section class="content">
-          <div class="container-fluid">
-            <div class="card">
-              <div class="card-body">
-                <table id="example2" class="table table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th>Dish</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Momo</td>
-                      <td>
-                        <span class="badge badge-pill badge-danger">Not Started</span>
-                      </td>
-                      <td class="text-right">
-                        <button class="btn btn-warning mr-auto">
-                          Mark as started
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Pizza</td>
-                      <td>
-                        <span class="badge badge-pill badge-danger">Not Started</span>
-                      </td>
-                      <td class="text-right">
-                        <button class="btn btn-warning mr-auto">
-                          Mark as started
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Chowmein</td>
-                      <td>
-                        <span class="badge badge-pill badge-warning">Started</span>
-                      </td>
-                      <td class="text-right">
-                        <button class="btn btn-success mr-auto">
-                          Mark as completed
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+      {
+        isOrdersLoading ?
+          <Loading /> :
+
+          <section class="content">
+            <div class="container-fluid">
+              <div class="card">
+                <div class="card-body">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>Dish</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {allOrdersByUsers?.map((item) => (
+                        <tr>
+                          <td>{item.foodName}</td>
+                          <td>
+                            <span class={`badge badge-pill ${item.orderStatus ? "badge-success" : "badge-danger"}`}>{item.orderStatus ? "Completed" : "Not completed"}</span>
+                          </td>
+                          <td class="text-right">
+                            {
+                              !item.orderStatus ?
+                                <button class="btn btn-success mr-auto" onClick={()=>{
+                                  onChangeToCompleted(item.orderId)
+                                }}>
+                                  Mark as completed
+                                </button> : null
+                            }
+                          </td>
+                        </tr>))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      </div>
+          </section>
+      }
 
-      <aside class="control-sidebar control-sidebar-dark">
-      </aside>
-	</>
+    </div>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+  </>
 }

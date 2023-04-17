@@ -11,8 +11,12 @@ export function Login(){
   const {data, isError, isLoading, mutate: login} = useLoginQuery();
 
   const onSubmit = (e)=>{
-    toast("ehllo")
     e.preventDefault()
+
+    login({
+      identifier: username,
+      password
+    })
   }
 	return (
     <div

@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './providers/authProvider';
 import { QueryClient,QueryClientProvider } from 'react-query'
 import 'react-toastify/dist/ReactToastify.css';
+import './config/axios'
 
 export const queryClient = new QueryClient()
 

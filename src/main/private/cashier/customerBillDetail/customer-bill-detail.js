@@ -1,4 +1,8 @@
+import { useGetCustomerBill } from "./queries";
+
 export function CustomerBillDetail(){
+
+	const {data: customerBillData} = useGetCustomerBill();
 
 	return  <div class="content-wrapper">
 	<section class="content-header">
@@ -76,7 +80,7 @@ export function CustomerBillDetail(){
 						<div class="table-responsive">
 							<table class="table">
 								<tbody><tr>
-									<th style="width:50%">Subtotal:</th>
+									<th style={{"width":"50%"}}>Subtotal:</th>
 									<td>Rs 4900</td>
 								</tr>
 								<tr>
@@ -98,7 +102,7 @@ export function CustomerBillDetail(){
 						<button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
 							Payment
 						</button>
-						<button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+						<button type="button" class="btn btn-primary float-right" style={{"marginRight": "5px"}}>
 							<i class="fas fa-download"></i> Generate PDF
 						</button>
 					</div>

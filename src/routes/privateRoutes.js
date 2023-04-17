@@ -1,18 +1,17 @@
-import { Navigate,Outlet,createBrowserRouter } from "react-router-dom";
-import { TableDetails } from "../main/private/waiter/table-details";
-import { TableStatus } from "../main/private/waiter/table-status";
+import { Outlet,createBrowserRouter } from "react-router-dom";
 import { Inventory } from "../main/private/manager/inventory";
-import { MenuItemList } from "../main/private/kitchen/menu-item-list";
+import { MenuItemList } from "../main/private/manager/MenuItemList/menu-item-list";
 import { Orders } from "../main/private/kitchen/orders/orders";
-import { MenuItemDetails } from "../main/private/kitchen/menu-item-details";
-import { CustomerMenuItemList } from "../main/private/customer/CustomerItemList";
+import { MenuItemDetails } from "../main/private/manager/MenuItemDetails/menu-item-details";
+import { CustomerMenuItemList } from "../main/private/customer/customerItemList/CustomerItemList.js";
 import { CustomerMenuOrder } from "../main/private/customer/menuOrder/MenuOrder";
-import { CustomerBillDetail } from "../main/private/cashier/customer-bill-detail";
+import { CustomerBillDetail } from "../main/private/cashier/customerBillDetail/customer-bill-detail";
 import { CustomerBillList } from "../main/private/cashier/customer-bill-list";
 import { TableBookingDetail } from "../main/private/cashier/table-booking-detail";
 import { TableBookingStatus } from "../main/private/cashier/table-booking-status";
 import { Dashboard } from "../main/private/Dashboard/Dashboard";
 import { CustomerOrderStatus } from "../main/private/customer/orderStatus/OrderStatus";
+import { CustomerMain } from "../main/private/customer/CustomerMain";
 
 export const privateRoutes = createBrowserRouter([
   {
@@ -28,25 +27,25 @@ export const privateRoutes = createBrowserRouter([
         children: [{
           path: '/manager/inventory',
           element: <Inventory />
+        },{
+          path: '/manager/item-list',
+          element: <MenuItemList />
+        },{
+          path: '/manager/item-details',
+          element: <MenuItemDetails />
         }]
       },
       {
         path: "/kitchen",
         element: <><Outlet /></>,
         children: [{
-          path: '/kitchen/item-list',
-          element: <MenuItemList />
-        },{
           path: '/kitchen/orders',
           element: <Orders />
-        },{
-          path: '/kitchen/item-details',
-          element: <MenuItemDetails />
-        }]
+        },]
       },
       {
         path: '/customer',
-        element: <><Outlet /></>,
+        element: <><CustomerMain /></>,
         children: [
           {
             path: '/customer/menu-order',

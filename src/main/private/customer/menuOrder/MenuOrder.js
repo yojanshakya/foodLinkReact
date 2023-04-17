@@ -1,5 +1,39 @@
-export function CustomerMenuOrder() {
+import { useContext } from "react"
+import { ordersContext } from "../CustomerMain"
+import { useCreateOrder } from "./MenuOrderQueries";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
+export function CustomerMenuOrder() {
+	const navigate = useNavigate()
+
+	const { orders,updateOrders,deleteOrder } = useContext(ordersContext);
+	const { data: createOrderResponse,isError,mutate: createOrder } = useCreateOrder(
+		()=>{
+			toast.success("Order created successfully")
+			navigate("/customer/order-status");
+		}
+	)
+
+	const onCreateOrder = () => {
+		// todo map with orders
+		createOrder(
+			{
+				order: orders.map((item)=> ({
+					quantity: item.quantity,
+					foodId: item.foodId
+				}))
+			},
+		)
+	}
+
+	const onQuantityChange = (item, changeType)=>{
+		if(changeType == "increase"){
+			updateOrders({...item, quantity: item.quantity+1})
+		}else if(item.quantity > 0){
+			updateOrders({...item, quantity: item.quantity-1})
+		}
+	}
 
 
 	return <div class="content-wrapper">
@@ -28,117 +62,54 @@ export function CustomerMenuOrder() {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td>
-									<div class="d-flex">
-										<div class="mr-auto">
-											<a> Momo </a>
-											<br />
-											<small> Momo is a dumpling </small>
-										</div>
-										<div class="mr-4">
-											<img alt="Avatar" style={{ "width": "3rem",height: "3rem" }} class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533" />
-										</div>
-									</div>
-								</td>
-								<td>Rs 250</td>
-								<td class="text-center">
-									<div class="input-group">
-										<span class="input-group-btn">
-											<button type="button" class="quantity-left-minus btn btn-number btn-light" data-type="minus" data-field="">
-												<span class="">-</span>
+							{
+								orders.map((item, index) => {
+									return <tr>
+										<td>{index + 1}</td>
+										<td>
+											<div class="d-flex">
+												<div class="mr-auto">
+													<span> {item.foodName} </span>
+													<br />
+													<small> {item.description || "description todo"} </small>
+												</div>
+												<div class="mr-4">
+													{/** todo change image */}
+													<img alt="Avatar" style={{ "width": "3rem",height: "3rem" }} class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533" />
+												</div>
+											</div>
+										</td>
+										<td>Rs {item.foodPrice}</td>
+										<td class="text-center">
+											<div class="input-group">
+												<span class="input-group-btn">
+													<button onClick={()=> onQuantityChange(item, "decrease")} type="button" class="quantity-left-minus btn btn-number btn-light" data-type="minus" data-field="">
+														<span class="">-</span>
+													</button>
+												</span>
+												<span
+												type="text"
+												id="quantity" 
+												name="quantity"
+												class="form-control input-number" 
+												>{item.quantity}</span>
+												<span class="input-group-btn">
+													<button onClick={()=> onQuantityChange(item, "increase")} type="button" class="quantity-right-plus btn btn-light btn-number" data-type="plus" data-field="">
+														<span class="">+</span>
+													</button>
+												</span>
+											</div>
+										</td>
+										<td class="text-center">{item.quantity * item.foodPrice}</td>
+										<td class="project-actions text-right">
+											<button onClick={()=> deleteOrder(item)} class="btn btn-danger btn-sm" href="#">
+												<i class="fas fa-trash"> </i>
 											</button>
-										</span>
-										<input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100" />
-										<span class="input-group-btn">
-											<button type="button" class="quantity-right-plus btn btn-light btn-number" data-type="plus" data-field="">
-												<span class="">+</span>
-											</button>
-										</span>
-									</div>
-								</td>
-								<td class="text-center">250</td>
-								<td class="project-actions text-right">
-									<a class="btn btn-danger btn-sm" href="#">
-										<i class="fas fa-trash"> </i>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>
-									<div class="d-flex">
-										<div class="mr-auto">
-											<a> Momo </a>
-											<br />
-											<small> Momo is a dumpling </small>
-										</div>
-										<div class="mr-4">
-											<img alt="Avatar" style={{ "width": "3rem",height: "3rem" }} class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533" />
-										</div>
-									</div>
-								</td>
-								<td>Rs 250</td>
-								<td class="text-center">
-									<div class="input-group">
-										<span class="input-group-btn">
-											<button type="button" class="quantity-left-minus btn btn-number btn-light" data-type="minus" data-field="">
-												<span class="">-</span>
-											</button>
-										</span>
-										<input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100" />
-										<span class="input-group-btn">
-											<button type="button" class="quantity-right-plus btn btn-light btn-number" data-type="plus" data-field="">
-												<span class="">+</span>
-											</button>
-										</span>
-									</div>
-								</td>
-								<td class="text-center">250</td>
-								<td class="project-actions text-right">
-									<a class="btn btn-danger btn-sm" href="#">
-										<i class="fas fa-trash"> </i>
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>
-									<div class="d-flex">
-										<div class="mr-auto">
-											<a> Momo </a>
-											<br />
-											<small> Momo is a dumpling </small>
-										</div>
-										<div class="mr-4">
-											<img alt="Avatar" style={{ "width": "3rem",height: "3rem" }} class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533" />
-										</div>
-									</div>
-								</td>
-								<td>Rs 250</td>
-								<td class="text-center">
-									<div class="input-group">
-										<span class="input-group-btn">
-											<button type="button" class="quantity-left-minus btn btn-number btn-light" data-type="minus" data-field="">
-												<span class="">-</span>
-											</button>
-										</span>
-										<input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100" />
-										<span class="input-group-btn">
-											<button type="button" class="quantity-right-plus btn btn-light btn-number" data-type="plus" data-field="">
-												<span class="">+</span>
-											</button>
-										</span>
-									</div>
-								</td>
-								<td class="text-center">250</td>
-								<td class="project-actions text-right">
-									<a class="btn btn-danger btn-sm" href="#">
-										<i class="fas fa-trash"> </i>
-									</a>
-								</td>
-							</tr>
+										</td>
+									</tr>
+								})
+							}
+
 						</tbody>
 					</table>
 				</div>
@@ -146,7 +117,9 @@ export function CustomerMenuOrder() {
 
 			<div class="col-12">
 				<a href="#" class="btn btn-secondary">Cancel</a>
-				<input type="submit" value="Confirm Order" class="btn btn-success float-right" />
+				<button onClick={()=>{
+					onCreateOrder()
+				}} type="submit" class="btn btn-success float-right" >Create Order</button>
 			</div>
 		</section>
 	</div>
