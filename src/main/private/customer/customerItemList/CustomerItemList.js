@@ -2,30 +2,34 @@ import React, { useContext } from "react"
 import { FoodCart } from "../../../../components/FoodCard/FoodCart"
 import { useGetAllMenuItem,useGetRecommendation } from "./queries"
 import { ordersContext } from "../CustomerMain"
+import { useGetSubCategoryWithFood } from "../../manager/MenuItemList/queries"
+import { toast } from "react-toastify"
 
 
 const TabOptions = {
-  menu: "menu",
   recommendation: "recommendation"
 }
 export function CustomerMenuItemList() {
 
+  const {orders, updateOrders} = useContext(ordersContext)
   const [tab,setTab] = React.useState(TabOptions.recommendation)
+
   const changeTab = (tab) => {
     setTab(tab)
   }
 
   const { data: allMenuItem,isError: isMenuItemsError,isFetching: isMenuItemsFetching } = useGetAllMenuItem();
   const { data: recommendationItems,isError: isRecommendationError,isFetching: isRecommendationFetching } = useGetRecommendation();
-
-  const {orders, updatedOrders} = useContext(ordersContext)
-
-  console.log({orders})
+	const {data: subCatWithFood  , isFetching, isError} = useGetSubCategoryWithFood();
+  const subCats = subCatWithFood?.map((item)=> item.category) || [];
 
   const onAddToCart = (item, quantity)=>{
-    updatedOrders({...item, quantity})
+    updateOrders({...item, quantity})
+
+    toast.success("Added to orders")
   }
 
+  console.log({subCatWithFood})
   return <>
     <div class="content-wrapper">
       <section class="content-header">
@@ -56,38 +60,42 @@ export function CustomerMenuItemList() {
                   }}
                 >Recommended for you</button>
               </li>
-              <li class="nav-item">
-                <button
-                  class={`nav-link ${tab == TabOptions.menu && 'active'}`}
-                  id="custom-tabs-four-profile-tab"
-                  href="#custom-tabs-four-profile"
-                  role="tab"
-                  onClick={() => {
-                    changeTab(TabOptions.menu)
-                  }}
-                  aria-selected="false">Menu</button>
-              </li>
+              {
+                subCats?.map((cat)=> {
+                  return <li class="nav-item">
+                  <button
+                    class={`nav-link ${tab == cat && 'active'}`}
+                    id="custom-tabs-four-profile-tab"
+                    href="#custom-tabs-four-profile"
+                    role="tab"
+                    onClick={() => {
+                      changeTab(cat)
+                    }}
+                    aria-selected="false">{cat}</button>
+                </li>
+                })
+              }
+              
             </ul>
           </div>
           <div class="card-body pb-0">
             <div class="row">
               {
-                tab == TabOptions.menu
-                ? (
-                  allMenuItem?.map((item) =>
-                    <FoodCart
-                      item={item}
-                      imgSrc={"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/800px-Eq_it-na_pizza-margherita_sep2005_sml.jpg"}
-                      onAddToCart={onAddToCart}
-                    />
-                  )
-                ) : recommendationItems?.map((item) =>
+                tab === TabOptions.recommendation && recommendationItems?.map((item) =>
                 <FoodCart
                   item={item}
                   onAddToCart={onAddToCart}
                 />)
               }
 
+              {
+                subCatWithFood?.find((subCat)=> subCat.category === tab )?.items.map(
+                  (item)=> <FoodCart item={{
+                    ...item, 
+                    foodPrice: item.price
+                  }} onAddToCart={onAddToCart} />
+                )
+              }
             </div>
           </div>
         </div>

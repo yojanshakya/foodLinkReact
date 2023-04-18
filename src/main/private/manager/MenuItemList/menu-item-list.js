@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../../../components/Loading/Loading";
 import { useGetAllMenuItem } from "../../customer/customerItemList/queries"
-import { useDeleteMenuItem } from "./queries";
+import { useDeleteMenuItem, useGetSubCategoryWithFood } from "./queries";
 
 export function MenuItemList() {
 

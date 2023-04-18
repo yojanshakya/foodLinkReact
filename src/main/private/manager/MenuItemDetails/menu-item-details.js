@@ -4,6 +4,7 @@ import { useCreateFood,useGetAllSubCategories,useGetSpecificItem } from "./queri
 import { Form,Formik } from "formik";
 import Select from 'react-select';
 import { toast } from "react-toastify";
+import axios from "axios";
 
 
 export function MenuItemDetails() {
@@ -18,10 +19,10 @@ export function MenuItemDetails() {
   })
 
   React.useState(() => {
-    if (state?.id) {
-      getSpecificItem(state?.id)
-    }
-  },[state?.id])
+    // if (state?.data) {
+    //   getSpecificItem(state?.id)
+    // }
+  },[state?.data])
 
   const [formState,setFormState] = React.useState({
     foodCode: '',
@@ -29,10 +30,11 @@ export function MenuItemDetails() {
     price: 0,
     // todo remove 
     quantity: 100,
-    foodDescription: "",
-    foodImage: null,
+    description: "",
+    file: null,
     subCategoryId: null,
-    discount: false
+    hasDiscount: false,
+    discount: 0
   });
 
   const onCancel = () => {
@@ -40,13 +42,13 @@ export function MenuItemDetails() {
   }
 
   const onSubmit = (values) => {
-    debugger;
-    createFoodItem(values);
+    createFoodItem(axios.toFormData(values));
   }
 
+  console.log({subCategories})
   const subCatOptions = subCategories?.map((item) => ({
     label: item.name,
-    value: item.code
+    value: item.id
   })) || [];
 
   // todo validations
@@ -139,8 +141,8 @@ export function MenuItemDetails() {
                                     class="form-control"
                                     id="exampleInputEmail1"
                                     placeholder="Enter quantity"
-                                    name="foodDescription"
-                                    value={values.foodDescription}
+                                    name="description"
+                                    value={values.description}
                                     onChange={handleChange}
                                     handleBlur={handleBlur}
                                   ></textarea>
@@ -153,9 +155,9 @@ export function MenuItemDetails() {
                                     style={{ maxWidth: "20rem" }}
                                   >
                                     {
-                                      values.foodImage ?
+                                      values.file ?
                                         <img
-                                          src={URL.createObjectURL(values.foodImage)}
+                                          src={URL.createObjectURL(values.file)}
                                         /> :
                                         "No image selected"
                                     }
@@ -168,16 +170,16 @@ export function MenuItemDetails() {
                                         id="exampleInputFile"
                                         value={""}
                                         onChange={(e) => {
-                                          setFieldValue("foodImage",e.target.files[0])
+                                          setFieldValue("file",e.target.files[0])
                                         }}
                                       />
                                       <label
                                         class="custom-file-label"
                                         for="exampleInputFile"
-                                      >{values.foodImage?.name || "Choose file"}</label>
+                                      >{values.file?.name || "Choose file"}</label>
                                     </div>
                                     <button onClick={() => {
-                                      setFieldValue("foodImage",null)
+                                      setFieldValue("file",null)
                                     }} className="btn btn-secondary">Cancel</button>
                                   </div>
                                 </div>

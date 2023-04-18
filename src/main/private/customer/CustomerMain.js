@@ -5,6 +5,13 @@ export const ordersContext = createContext();
 const { Provider: OrdersProvider } = ordersContext;
 
 export function CustomerMain() {
+  /**
+   * orders type
+   *  foodname
+   *  description
+   *  foodprice
+   *  quantity
+   */
 	const [orders,setOrders] = React.useState([]);
 
 	const updateOrders = (item)=>{

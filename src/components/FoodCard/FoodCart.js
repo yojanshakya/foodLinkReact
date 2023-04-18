@@ -22,7 +22,7 @@ export function FoodCart({
 			<div class="card-body">
 				<div class="row">
 					<div class="col-7">
-						<h2 class="lead"><b>{item.name}</b></h2>
+						<h2 class="lead"><b>{item.foodName}</b></h2>
 						<p class="text-muted text-sm"><b>Description: </b> {item.description} </p>
 					</div>
 					<div class="col-5 text-center">
