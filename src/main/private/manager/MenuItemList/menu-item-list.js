@@ -22,6 +22,10 @@ export function MenuItemList() {
 		})
 	}
 
+	const onAddNew = ()=>{
+		navigate('/manager/item-details');
+	}
+
 	return <div class="content-wrapper">
 		<section class="content-header">
 			<div class="container-fluid">
@@ -76,7 +80,7 @@ export function MenuItemList() {
 		</section >
 		<div class="row mb-3">
 			<div class="col-12">
-				<button type="submit" class="btn btn-success float-right" >Add new item</button>
+				<button type="submit" onClick={()=>onAddNew()} class="btn btn-success float-right" >Add new item</button>
 			</div>
 		</div>
 	</div >
