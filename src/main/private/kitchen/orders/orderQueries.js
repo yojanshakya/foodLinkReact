@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useMutation, useQueries, useQuery } from "react-query"
 import { queryClient } from "../../../.."
+import { toast } from "react-toastify"
 
 
 export const useGetOrdersByAllUsers = ()=>{
@@ -10,16 +11,14 @@ export const useGetOrdersByAllUsers = ()=>{
 				url: '/order/fetch-all-user-order-detail'
 			})
 		},
-		select: (data)=> {
-			return data?.data?.data?.map(({orderSummary, username})=>{
-				const orders = orderSummary?.map((order)=>{
-					return {
-						...order,
-						username: username
-					}
-				})
+		select: (res)=> {
+			const data = res?.data?.data || []
 
-				return orders;
+			return data?.map((item)=> {
+				item.orderSummary?.forEach((order)=> {
+					order.username = item.username
+				})	
+				return item.orderSummary
 			}).flat();
 
 		}
@@ -37,8 +36,9 @@ export const useChangeOrderToCompleted = ()=> {
 		},
 		onSuccess: ()=>{
 			queryClient.invalidateQueries({
-				queryKey: ['getAllOrdersOfAllUser']
+				queryKey: ['fetch-all-user-orderssss']
 			})
+			toast.success("Successfully marked to completed.")
 		}
 	})
 }

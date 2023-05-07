@@ -40,10 +40,15 @@ export function CustomerMain() {
 		setOrders(orders.filter((order)=> order.foodCode !== item.foodCode))
 	}
 
+  const clearAllOrders = ()=>{
+    setOrders([])
+  }
+
 	return <OrdersProvider value={{
 		orders,
 		updateOrders,
-		deleteOrder
+		deleteOrder,
+    clearAllOrders
 	}}>
 		<Outlet />
 	</OrdersProvider>

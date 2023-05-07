@@ -1,59 +1,10 @@
 import { Link } from "react-router-dom"
+import { sidebarItems } from "./sidebarItems"
+import { getUserType } from "../../../../utils/auth/auth"
 
 export function Sidebar() {
 
-	const sidebarItems = [
-		{
-			text: 'Manager Inventory',
-			path: '/manager/inventory'
-		},
-		{
-			text: 'Manager Item List',
-			path: '/manager/item-list'
-		},
-		{
-			text: 'Manager Item Details',
-			path: '/manager/item-details'
-		},
-		{
-			text: 'Kitchen Orders',
-			path: '/kitchen/orders'
-		},
-		
-		{
-			text: 'Customer Item List',
-			path: '/customer/item-list'
-		},
-		{
-			text: 'Customer Order item list',
-			path: '/customer/menu-order'
-		},
-		{
-			text: 'Customer Order Status',
-			path: '/customer/order-status'
-		},
-		{
-			text: 'Cashier bill detail',
-			path: '/cashier/bill-detail'
-		},
-		{
-			text: 'Cashier bill list',
-			path: '/cashier/bill-list'
-		},
-		{
-			text: 'Cashier item list',
-			path: '/cashier/item-list'
-		},
-		{
-			text: 'Cashier table booking detail',
-			path: '/cashier/table-booking-detail'
-		},
-		{
-			text: 'Cashier table booking status',
-			path: '/cashier/table-booking-status'
-		},
-	]
-
+	
 
 	return (
 		<aside class="main-sidebar sidebar-light-primary elevation-4">
@@ -94,8 +45,10 @@ export function Sidebar() {
 						role="menu"
 						data-accordion="false"
 					>
+
+						{console.log(sidebarItems["waiter"], "slkf")}
 						{
-							sidebarItems.map(({text, path})=>{
+							sidebarItems[getUserType()]?.map(({text, path})=>{
 								return <li class="nav-item">
 								<Link to={path} class="nav-link">
 									{/* todo icons */}
@@ -117,3 +70,53 @@ export function Sidebar() {
 			{/* <!-- /.sidebar --> */}
 		</aside>)
 }
+
+
+
+const sidebarItemsOld = [
+	{
+		text: 'Manager Item List',
+		path: '/manager/item-list'
+	},
+	{
+		text: 'Manager Item Details',
+		path: '/manager/item-details'
+	},
+	{
+		text: 'Kitchen Orders',
+		path: '/kitchen/orders'
+	},
+	
+	{
+		text: 'Customer Item List',
+		path: '/customer/item-list'
+	},
+	{
+		text: 'Customer Order item list',
+		path: '/customer/menu-order'
+	},
+	{
+		text: 'Customer Order Status',
+		path: '/customer/order-status'
+	},
+	{
+		text: 'Cashier bill detail',
+		path: '/cashier/bill-detail'
+	},
+	{
+		text: 'Cashier bill list',
+		path: '/cashier/bill-list'
+	},
+	{
+		text: 'Cashier item list',
+		path: '/cashier/item-list'
+	},
+	{
+		text: 'Cashier table booking detail',
+		path: '/cashier/table-booking-detail'
+	},
+	{
+		text: 'Cashier table booking status',
+		path: '/cashier/table-booking-status'
+	},
+]

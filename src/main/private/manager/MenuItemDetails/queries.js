@@ -33,9 +33,35 @@ export const useCreateFood = (onSuccess)=>{
 				method: "POST",
 				data
 			}).then((res)=>{
-				if(!(res.response?.data.status >= 200 && res.response?.data.status <300))
+				if(!(res?.data.statusCode >= 200 && res?.data.statusCode <300))
 				{
-					res?.response?.data?.message?.forEach((msg)=> {
+					debugger;
+					res?.data?.message?.forEach((msg)=> {
+						toast.error(msg)
+					})
+					throw new Error(res)
+				}	
+				return res
+			})
+		},
+		onSuccess,
+	})
+}
+
+
+export const useUpdateSpecificFood = ( onSuccess)=>{
+	return useMutation('update-food', {
+		mutationFn: (data)=>{
+			const foodId = data.get("foodId");
+			delete data.delete("foodId");
+			return axios({
+				url: `/food-item/update-specific-food/${foodId}`,
+				method: "patch",
+				data
+			}).then((res)=>{
+				if(!(res?.data.statusCode >= 200 && res?.data.statusCode <300))
+				{
+					res?.data?.message?.forEach((msg)=> {
 						toast.error(msg)
 					})
 					throw new Error(res)

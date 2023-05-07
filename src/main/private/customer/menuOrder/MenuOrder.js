@@ -7,11 +7,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 export function CustomerMenuOrder() {
 	const navigate = useNavigate()
 
-	const { orders,updateOrders,deleteOrder } = useContext(ordersContext);
+	const { orders,updateOrders,deleteOrder,clearAllOrders } = useContext(ordersContext);
 	const { data: createOrderResponse,isError,mutate: createOrder } = useCreateOrder(
 		() => {
 			toast.success("Order created successfully")
 			navigate("/customer/order-status");
+			clearAllOrders()
 		}
 	)
 
@@ -22,7 +23,8 @@ export function CustomerMenuOrder() {
 				order: orders.map((item) => ({
 					quantity: item.quantity,
 					foodId: item.foodId
-				}))
+				})),
+				orderTime: Date.now()
 			},
 		)
 	}
@@ -80,7 +82,7 @@ export function CustomerMenuOrder() {
 														</div>
 														<div class="mr-4">
 															{/** todo change image */}
-															<img alt="Avatar" style={{ "width": "3rem",height: "3rem" }} class="img-circle img-fluid" src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202112/momo_660_060817115337-sixteen_nine.jpg?size=948:533" />
+															<img alt="Avatar" style={{ "width": "3rem",height: "3rem" }} class="img-circle img-fluid" src={"data:image/png;base64," + item.foodImage} />
 														</div>
 													</div>
 												</td>

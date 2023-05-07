@@ -18,7 +18,6 @@ export function CustomerMenuItemList() {
     setTab(tab)
   }
 
-  const { data: allMenuItem,isError: isMenuItemsError,isFetching: isMenuItemsFetching } = useGetAllMenuItem();
   const { data: recommendationItems,isError: isRecommendationError,isFetching: isRecommendationFetching } = useGetRecommendation();
 	const {data: subCatWithFood  , isFetching, isError} = useGetSubCategoryWithFood();
   const subCats = subCatWithFood?.map((item)=> item.category) || [];
@@ -26,7 +25,7 @@ export function CustomerMenuItemList() {
   const onAddToCart = (item, quantity)=>{
     updateOrders({...item, quantity})
 
-    toast.success("Added to orders")
+    toast.success("Added to orders. Please confirm through the orders page.")
   }
 
   console.log({subCatWithFood})
@@ -51,7 +50,6 @@ export function CustomerMenuItemList() {
                 <button
                   class={`nav-link ${tab == TabOptions.recommendation && 'active'}`}
                   id="custom-tabs-four-home-tab"
-                  href="#custom-tabs-four-home"
                   role="tab"
                   aria-controls="custom-tabs-four-home"
                   aria-selected="true"
@@ -66,7 +64,6 @@ export function CustomerMenuItemList() {
                   <button
                     class={`nav-link ${tab == cat && 'active'}`}
                     id="custom-tabs-four-profile-tab"
-                    href="#custom-tabs-four-profile"
                     role="tab"
                     onClick={() => {
                       changeTab(cat)

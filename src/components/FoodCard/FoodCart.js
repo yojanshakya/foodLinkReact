@@ -1,20 +1,25 @@
-import React from "react";
+import React,{ useContext } from "react";
+import { ordersContext } from "../../main/private/customer/CustomerMain";
 
 export function FoodCart({
 	item,
 	onAddToCart,
 }) {
 
-	const [quantity, setQuantity] = React.useState(0)
-	const onIncrease = ()=>{
-		setQuantity(quantity+1);
+	const { orders,updateOrders,deleteOrder } = useContext(ordersContext);
+
+	const [quantity,setQuantity] = React.useState(()=>{
+		return orders.find((order)=> order.foodId == item.foodId )?.quantity || 0; 
+	})
+	const onIncrease = () => {
+		setQuantity(quantity + 1);
 	}
 
-	const onDecrease = ()=>{
-		if(quantity == 0){
+	const onDecrease = () => {
+		if (quantity == 0) {
 			return
 		}
-		setQuantity(quantity-1)
+		setQuantity(quantity - 1)
 	}
 
 	return <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
@@ -24,9 +29,10 @@ export function FoodCart({
 					<div class="col-7">
 						<h2 class="lead"><b>{item.foodName}</b></h2>
 						<p class="text-muted text-sm"><b>Description: </b> {item.description} </p>
+						<p class="text-muted text-sm"><b>Price: </b>Rs. {item.price || item.foodPrice} </p>
 					</div>
 					<div class="col-5 text-center">
-						<img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/800px-Eq_it-na_pizza-margherita_sep2005_sml.jpg"} alt="user-avatar" class="img-circle img-fluid" />                        </div>
+						<img src={"data:image/png;base64," + item.foodImage} alt="user-avatar" class="img-circle img-fluid" />                        </div>
 				</div>
 			</div>
 			<div class="card-footer bg-white d-flex">
@@ -44,7 +50,7 @@ export function FoodCart({
 					</span>
 				</div>
 				<button onClick={() => {
-					onAddToCart(item, quantity);
+					onAddToCart(item,quantity);
 				}} class="btn btn-sm btn-light">
 					Add to My Orders
 				</button>

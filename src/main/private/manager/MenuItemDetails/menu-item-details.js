@@ -1,10 +1,11 @@
 import React from "react"
 import { useLocation,useNavigate } from "react-router-dom"
-import { useCreateFood,useGetAllSubCategories,useGetSpecificItem } from "./queries";
+import { useCreateFood,useGetAllSubCategories,useGetSpecificItem, useUpdateSpecificFood } from "./queries";
 import { Form,Formik } from "formik";
 import Select from 'react-select';
 import { toast } from "react-toastify";
 import axios from "axios";
+import { convertBase64ToFile, dataURLtoFile } from "../../../../utils/utils";
 
 
 export function MenuItemDetails() {
@@ -17,12 +18,10 @@ export function MenuItemDetails() {
     toast.success("Successfully Created Food Item.")
     navigate("/manager/item-list")
   })
-
-  React.useState(() => {
-    // if (state?.data) {
-    //   getSpecificItem(state?.id)
-    // }
-  },[state?.data])
+  const { mutate: updateFoodItem,isLoading: isUpdateFoodItem } = useUpdateSpecificFood(() => {
+    toast.success("Successfully Updated Food Item.")
+    navigate("/manager/item-list")
+  })
 
   const [formState,setFormState] = React.useState({
     foodCode: '',
@@ -37,15 +36,42 @@ export function MenuItemDetails() {
     discount: 0
   });
 
+  React.useState(() => {
+    (async()=>{
+      if (state?.item) {
+        setFormState({
+          foodId: state.item.foodId,
+          foodCode: state.item.foodCode,
+          foodName: state.item.foodName,
+          price: state.item.price,
+          quantity: 100,
+          description: state.item.foodDescription,
+          file: dataURLtoFile(state.item.foodImage),
+          subCategoryId: state.item.subCategoryId,
+          hasDiscount: false,
+          discount: 0
+        })
+
+      }
+    })()
+    
+  },[state?.item])
+
+
+
   const onCancel = () => {
     navigate("/manager/item-list")
   }
 
   const onSubmit = (values) => {
-    createFoodItem(axios.toFormData(values));
+    if(values.foodId){
+      updateFoodItem(axios.toFormData(values));
+    }else{
+      createFoodItem(axios.toFormData(values));
+    }
   }
 
-  console.log({subCategories})
+  console.log({ subCategories })
   const subCatOptions = subCategories?.map((item) => ({
     label: item.name,
     value: item.id

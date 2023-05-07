@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useMutation,useQuery } from "react-query"
 import { queryClient } from "../../../..";
+import { toast } from "react-toastify";
 
 export const useDeleteMenuItem = () => {
 
@@ -11,9 +12,9 @@ export const useDeleteMenuItem = () => {
 		}),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: ["customer-get-all-menu-items"]
+				queryKey: ['get-sub-category-with-food']
 			});
-
+			toast.success("Successfully deleted item")
 
 		}
 	});
@@ -35,6 +36,9 @@ export const useGetSubCategoryWithFood = () => {
 					foodName: food.foodName,
 					price: food.foodPrice,
 					quantity: 0,
+					foodImage: food.foodImage,
+					foodDescription: food.foodDescription,
+					subCategoryId: subCat.subCategoryId
 				}))
 			}
 		}) || []

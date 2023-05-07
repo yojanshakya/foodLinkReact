@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { useBookTable, useGetAllTableWithBookingTime } from '../customer/tableBooking/queries';
-import { getUserData } from '../../../utils/auth/auth';
-import { formatAMPM } from '../../../utils/utils';
+import { useBookTable,useGetAllTableWithBookingTime } from './queries';
+import { formatAMPM } from '../../../../utils/utils';
+import { getUserData } from '../../../../utils/auth/auth';
 
-
-export function TableBookingDetail() {
+export function CustomerTableBooking() {
 
 	const { data: allTableData,error,isLoading } = useGetAllTableWithBookingTime();
 	const { data: bookTableData,error: bookTableErr,isLoading: bookTableLoading,mutate: bookTable } = useBookTable(
@@ -23,7 +22,8 @@ export function TableBookingDetail() {
 		bookTable({ fromTime,toTime,id: selectedTable });
 	}
 
-	console.log({ allTableData,fromTime,toTime,selectedTable })
+	// console.log({ allTableData,fromTime,toTime,selectedTable })
+
 	return <div class="content-wrapper">
 		<section class="content-header">
 			<div class="container-fluid">
@@ -38,12 +38,13 @@ export function TableBookingDetail() {
 		<section class="content">
 			<div class="container-fluid">
 				<div class="card">
-					<div class="card-body p-0">
-						<table id="example2" class="table table-striped table-valign-middle">
-							<thead>
+					<div class="card-body table-responsive p-0">
+						<table class="table table-striped table-valign-middle">
+						<thead>
 								<tr>
 									<th>Table</th>
 									<th>Time</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -63,13 +64,25 @@ export function TableBookingDetail() {
 											return prev.concat(`${startDate} - ${endDate}`);
 										},[])
 
+										console.log({ userData: getUserData() })
+
 										return <tr>
 											<td>{code}</td>
 											<td>{
 												times.filter((time) => !!time).map((time,index) => {
-													return <div>{time}</div>
+													return <div>{time} {
+														bookings?.[index].userEmail === getUserData()?.email ?
+															<span class="badge badge-pill badge-success">Booked By You</span> : null
+													}</div>
 												})
 											}</td>
+											<td>
+												<button class="btn btn-success mr-auto" onClick={() => {
+													setSelectedTable(bookings[0].id)
+												}}>
+													Book table
+												</button>
+											</td>
 										</tr>
 									})}
 							</tbody>
@@ -78,7 +91,6 @@ export function TableBookingDetail() {
 				</div>
 			</div>
 		</section>
-
 		{
 			selectedTable && <div>
 				<div class="modal-backdrop fade show"></div>
@@ -119,5 +131,78 @@ export function TableBookingDetail() {
 				</div>
 			</div>
 		}
+	</div>
+
+
+
+	return <div class="content-wrapper">
+		<section class="content-header">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1>Book Tables</h1>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="content">
+			<div class="container-fluid">
+				<div class="card">
+					<div class="card-body">
+						<table id="example2" class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Table</th>
+									<th>Time</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{
+									!isLoading && Object.entries(allTableData || {})?.map(([code,bookings]) => {
+
+										const times = bookings.reduce((prev,curr,) => {
+											const { tableBookedStartDate,tableBookedEndDate } = curr;
+
+											if (!tableBookedEndDate && !tableBookedStartDate) {
+												return ['']
+											}
+
+											const startDate = formatAMPM(tableBookedStartDate);
+											const endDate = formatAMPM(tableBookedEndDate);
+
+											return prev.concat(`${startDate} - ${endDate}`);
+										},[])
+
+										console.log({ userData: getUserData() })
+
+										return <tr>
+											<td>{code}</td>
+											<td>{
+												times.filter((time) => !!time).map((time,index) => {
+													return <div>{time} {
+														bookings?.[index].userEmail === getUserData()?.email ?
+															<span class="badge badge-pill badge-success">Booked By You</span> : null
+													}</div>
+												})
+											}</td>
+											<td>
+												<button class="btn btn-success mr-auto" onClick={() => {
+													setSelectedTable(bookings[0].id)
+												}}>
+													Book table
+												</button>
+											</td>
+										</tr>
+									})}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		
 	</div>
 }

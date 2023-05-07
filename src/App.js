@@ -4,13 +4,14 @@ import { privateRoutes } from './routes/privateRoutes';
 import { publicRoutes } from './routes/publicRoutes';
 import { ToastContainer } from 'react-toastify';
 import { isAuthenticated } from './utils/auth/auth';
+import React from 'react';
 
 
 function App() {
   const isAuth = isAuthenticated();
 
   return <>
-    <RouterProvider router={isAuth ? privateRoutes : publicRoutes} />
+    <RouterProvider router={true ? privateRoutes : publicRoutes} />
     <ToastContainer
       position="bottom-right"
       autoClose={5000}

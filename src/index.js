@@ -8,31 +8,22 @@ import { QueryClient,QueryClientProvider } from 'react-query'
 import 'react-toastify/dist/ReactToastify.css';
 import './config/axios'
 
-export const queryClient = new QueryClient()
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      stateTime: Math.INFINITY,
+      retry: false,
+    }
+  }
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-
         <App>
         </App>
-        {/* <ToastContainer
-          position="bottom-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        >
-        <App />
-
-        </ToastContainer > */}
       </AuthProvider>
     </ QueryClientProvider>
   </React.StrictMode>
