@@ -28,8 +28,8 @@ export function CustomerTableBooking() {
 		<section class="content-header">
 			<div class="container-fluid">
 				<div class="row mb-2">
-					<div class="col-sm-6">
-						<h1>Book Tables</h1>
+					<div class="col-sm-12">
+						<h1 className="text-center">Book Tables</h1>
 					</div>
 				</div>
 			</div>
@@ -43,8 +43,8 @@ export function CustomerTableBooking() {
 						<thead>
 								<tr>
 									<th>Table</th>
-									<th>Time</th>
-									<th>Action</th>
+									<th>Booked Time</th>
+									<th  className="text-center">Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -76,7 +76,7 @@ export function CustomerTableBooking() {
 													}</div>
 												})
 											}</td>
-											<td>
+											<td className="text-center">
 												<button class="btn btn-success mr-auto" onClick={() => {
 													setSelectedTable(bookings[0].id)
 												}}>

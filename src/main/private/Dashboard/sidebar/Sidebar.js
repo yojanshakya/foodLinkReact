@@ -1,27 +1,26 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { sidebarItems } from "./sidebarItems"
 import { getUserType } from "../../../../utils/auth/auth"
+import './sidebar.css'
 
 export function Sidebar() {
 
-	
+	const location = useLocation()
 
 	return (
-		<aside class="main-sidebar sidebar-light-primary elevation-4">
-			<a href="../../index3.html" class="brand-link">
-				<img
-					src="../../dist/img/main/Logo.png"
-					alt="AdminLTE Logo"
-					class="brand-image img-circle "
-					style={{ opacity: 1 }}
-				/>
-				<span class="brand-text font-weight-light">Food Link</span>
-			</a>
+		<aside class="main-sidebar sidebar-light-primary elevation-4" style={{ backgroundColor: "#272727",color: "white" }}>
+			<a href="../../index3.html" className="text-white" style={{borderBottom: "1px solid white"}} >
+				<div style={{ height: "100%" }}>
+					<img
+						src="../../dist/img/main/LogoWhite.png"
+						alt="AdminLTE Logo"
+						class="img-fluid"
+						style={{ opacity: 1,width: "100%",padding: "0 5.25rem" }}
+					/>
+				</div>
 
-			{/* <!-- Sidebar --> */}
-			<div class="sidebar">
-				{/* <!-- SidebarSearch Form --> */}
-				<div class="form-inline">
+			</a>
+			<div class="form-inline">
 					<div class="input-group" data-widget="sidebar-search">
 						<input
 							class="form-control form-control-sidebar"
@@ -37,6 +36,8 @@ export function Sidebar() {
 					</div>
 				</div>
 
+			{/* <!-- Sidebar --> */}
+			<div class="sidebar ">
 				{/* <!-- Sidebar Menu --> */}
 				<nav class="mt-2">
 					<ul
@@ -45,24 +46,18 @@ export function Sidebar() {
 						role="menu"
 						data-accordion="false"
 					>
-
-						{console.log(sidebarItems["waiter"], "slkf")}
 						{
-							sidebarItems[getUserType()]?.map(({text, path})=>{
-								return <li class="nav-item">
-								<Link to={path} class="nav-link">
-									{/* todo icons */}
-									{/* <i class="nav-icon fas fa-light fa-dollar-sign "></i> */}
-									<p>
-										{text}
-									</p>
-								</Link>
-							</li>
+							sidebarItems[getUserType()]?.map(({ text,path }) => {
+								return <li class="nav-item ">
+									<Link to={path} class={`nav-link text-white ${location.pathname == path ? "activated" : ""}`}
+									>
+										<p className="text-white">
+											{text}
+										</p>
+									</Link>
+								</li>
 							})
 						}
-						
-						
-
 					</ul>
 				</nav>
 				{/* <!-- /.sidebar-menu --> */}
@@ -86,7 +81,7 @@ const sidebarItemsOld = [
 		text: 'Kitchen Orders',
 		path: '/kitchen/orders'
 	},
-	
+
 	{
 		text: 'Customer Item List',
 		path: '/customer/item-list'

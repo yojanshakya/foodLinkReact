@@ -11,7 +11,7 @@ function App() {
   const isAuth = isAuthenticated();
 
   return <>
-    <RouterProvider router={true ? privateRoutes : publicRoutes} />
+    <RouterProvider router={isAuth ? privateRoutes : publicRoutes} />
     <ToastContainer
       position="bottom-right"
       autoClose={5000}

@@ -42,8 +42,8 @@ export function CustomerMenuOrder() {
 		<section class="content-header">
 			<div class="container-fluid">
 				<div class="row mb-2">
-					<div class="col-sm-6">
-						<h1>Your Orders</h1>
+					<div class="col-sm-12">
+						<h1 className="text-center">Your Orders</h1>
 					</div>
 				</div>
 			</div>
@@ -91,7 +91,7 @@ export function CustomerMenuOrder() {
 													<div class="input-group">
 														<span class="input-group-btn">
 															<button onClick={() => onQuantityChange(item,"decrease")} type="button" class="quantity-left-minus btn btn-number btn-light" data-type="minus" data-field="">
-																<span class="">-</span>
+																<span  style={{color:"#f2a900", fontWeight:"bolder"}}>-</span>
 															</button>
 														</span>
 														<span
@@ -102,7 +102,7 @@ export function CustomerMenuOrder() {
 														>{item.quantity}</span>
 														<span class="input-group-btn">
 															<button onClick={() => onQuantityChange(item,"increase")} type="button" class="quantity-right-plus btn btn-light btn-number" data-type="plus" data-field="">
-																<span class="">+</span>
+																<span  style={{color:"#f2a900", fontWeight:"bolder"}}>+</span>
 															</button>
 														</span>
 													</div>

@@ -50,7 +50,8 @@ export function Orders() {
                         <tr>
                           <th>Dish</th>
                           <th>Status</th>
-                          <th>Action</th>
+                          <th>Quantity</th>
+                          <th className="text-center">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -61,7 +62,10 @@ export function Orders() {
                             <td>
                               <span class={`badge badge-pill ${item?.isCompleted ? "badge-success" : "badge-danger"}`}>{item?.isCompleted ? "Completed" : "Not completed"}</span>
                             </td>
-                            <td class="text-right">
+                            <td>
+                              <span >{item.quantity}</span>
+                            </td>
+                            <td class="text-center  ">
                               {
                                 !item?.isCompleted ?
                                   <button class="btn btn-success mr-auto" onClick={() => {

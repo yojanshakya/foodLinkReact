@@ -1,6 +1,8 @@
 import { getUserData } from "../../../../utils/auth/auth";
 import { useGetOrderStatusByUser } from "../orderStatus/queries";
 import { useGetCustomerBill } from "./queries";
+import domToPdf from 'dom-to-pdf'
+
 
 export function CustomerBillDetail() {
 
@@ -13,25 +15,34 @@ export function CustomerBillDetail() {
 
 	const date = new Date();
 
+	const onPdfBill = () => {
+		var element = document.getElementById('bill');
+		var options = {
+			filename: `bill-${Date.now()}.pdf`
+		};
+		domToPdf(element,options,function (pdf) {
+			console.log('done');
+		});
+	}
 	return <div class="content-wrapper">
 		<section class="content-header">
 			<div class="container-fluid">
 				<div class="row mb-2">
-					<div class="col-sm-6">
-						<h1>Customer Bills List</h1>
+					<div class="col-sm-12">
+						<h1 className="text-center">Customer Bills List</h1>
 					</div>
 				</div>
 			</div>
 		</section>
 		{
-			orders?.length == 0  || (!isOrdersLoading &&   orders?.some((order) => !order.orderStatus)) ? <div className="content">
+			orders?.length == 0 || (!isOrdersLoading && orders?.some((order) => !order.orderStatus)) ? <div className="content">
 				<div className="container-fluid ">
 					<div className="invoice px-2 py-4">
 						Please wait for all your orders to be completed
 					</div>
 				</div>
 			</div> : <section class="content">
-				<div class="container-fluid">
+				<div class="container-fluid" id="bill">
 					<div class="invoice p-3 mb-3">
 						<div class="row mb-4" >
 							<div class="col-12">
@@ -62,8 +73,8 @@ export function CustomerBillDetail() {
 									</thead>
 									<tbody>
 										{
-											customerBillData?.orders?.map((item, index) => {
-												
+											customerBillData?.orders?.map((item,index) => {
+
 												return <tr>
 													<td>{index}</td>
 													<td>{item.foodName}</td>
@@ -106,10 +117,18 @@ export function CustomerBillDetail() {
 						</div>
 					</div>
 				</div>
+
+				<div class="row no-print">
+					<div class="col-12">
+						<button className="btn btn-primary float-right mr-3" onClick={() => {
+							onPdfBill()
+						}}>
+							<i class="fa fa-print mr-2"></i>
+							Generate Pdf
+						</button>
+					</div>
+				</div>
 			</section>
 		}
-
-
-
 	</div>
 }

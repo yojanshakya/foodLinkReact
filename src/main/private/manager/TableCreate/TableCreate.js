@@ -15,8 +15,8 @@ export function TableCreate() {
 	const [isModalOpen,setIsModalOpen] = useState();
 	const [tableName,setTableName] = useState('')
 
-	const onClickAddTable = () => {
-		createTable();
+	const onClickAddTable = async () => {
+		await createTable(tableName);
 		setIsModalOpen(false);
 		setTableName('');
 	}
@@ -26,7 +26,7 @@ export function TableCreate() {
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1>Table Management</h1>
+						<h1 className="">Table Management</h1>
 					</div>
 					<div className="col-sm-6 text-right">
 						<button className='btn btn-success' onClick={() => {
@@ -37,35 +37,45 @@ export function TableCreate() {
 			</div>
 		</section>
 
-		<section class="content">
-			<div class="container-fluid">
-				<div class="card">
-					<div class="card-body p-0">
-						<table id="example2" class="table table-striped table-valign-middle">
-							<thead>
-								<tr>
-									<th>Table</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								{
-									!isLoading && Object.entries(allTableData || {})?.map(([code,bookings]) => {
-										return <tr>
-											<td>{code}</td>
-											<td>
-												<button onClick={() => {
-													deleteTable(bookings[0].id)
-												}} class="btn btn-danger"><i class="fa fa-trash"></i></button>
-											</td>
-										</tr>
-									})}
-							</tbody>
-						</table>
-					</div>
+		{
+
+			<section class="content">
+				<div class="container-fluid">
+					{
+						(!isLoading && Object.entries(allTableData || {}).length == 0)
+							? <p className='card card-solid p-4'>No Tables configured. Please add one.</p> :
+
+							<div class="card">
+								<div class="card-body p-0">
+									<table id="example2" class="table table-striped table-valign-middle">
+										<thead>
+											<tr>
+												<th>Table</th>
+												<th className="text-center">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											{
+												!isLoading && Object.entries(allTableData || {})?.map(([code,bookings]) => {
+													return <tr>
+														<td>{code}</td>
+														<td  className="text-center">
+															<button onClick={() => {
+																deleteTable(bookings[0].id)
+															}} class="btn btn-danger"><i class="fa fa-trash"></i></button>
+														</td>
+													</tr>
+												})}
+										</tbody>
+									</table>
+								</div>
+							</div>
+					}
 				</div>
-			</div>
-		</section>
+			</section>
+		}
+
+
 
 		{
 			isModalOpen && <div>

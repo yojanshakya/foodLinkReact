@@ -39,19 +39,19 @@ export function FoodCart({
 				<div class="input-group input-group-sm ml-auto" style={{ "max-width": "120px" }}>
 					<span class="input-group-btn">
 						<button type="button" onClick={onDecrease} class="quantity-left-minus btn btn-sm btn-number btn-light" data-type="minus" data-field="">
-							<span class="">-</span>
+							<span style={{color:"#f2a900", fontWeight:"bolder"}}>-</span>
 						</button>
 					</span>
 					<input readOnly type="text" id="quantity" name="quantity" class="form-control input-number" style={{ "max-width": "50px",backgroundColor: "white" }} value={quantity} min="1" max="100" />
 					<span class="input-group-btn">
 						<button onClick={() => onIncrease()} type="button" class="quantity-right-plus btn btn-sm btn-light btn-number" data-type="plus" data-field="">
-							<span class="">+</span>
+							<span style={{color:"#f2a900", fontWeight:"bolder"}}>+</span>
 						</button>
 					</span>
 				</div>
 				<button onClick={() => {
 					onAddToCart(item,quantity);
-				}} class="btn btn-sm btn-light">
+				}} class="btn btn-sm btn-light" style={{backgroundColor: "#f2a900", color:"white"}}>
 					Add to My Orders
 				</button>
 			</div>
